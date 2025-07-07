@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
-const useGame =  create(
+const useGame = create(
   subscribeWithSelector((set) => {
     return {
       blocksCount: 10,
       blockSeed: 0,
+
+      playerName: "",
 
       startTime: 0,
       endTime: 0,
@@ -30,6 +32,10 @@ const useGame =  create(
           return {};
         });
       },
+      setPlayerName: (name) => {
+        set(() => ({ playerName: name }));
+      },
+
       end: () => {
         set((state) => {
           if (state.phase === "playing")

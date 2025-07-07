@@ -22,6 +22,7 @@ const Player = () => {
   const end = useGame((state) => state.end);
   const restart = useGame((state) => state.restart);
   const blocksCount = useGame((state) => state.blocksCount);
+  const playerName = useGame((state) => state.playerName);
 
   const jump = () => {
     const origin = body.current.translation();
@@ -44,12 +45,17 @@ const Player = () => {
     body.current.setAngvel({ x: 0, y: 0, z: 0 });
   };
 
+  const lastBlock = useRef(0);
+
   useEffect(() => {
     const unsubscribeReset = useGame.subscribe(
       (state) => state.phase,
       (value) => {
         // console.log("state changed to ", value);
-        if (value === "ready") reset();
+        if (value === "ready") {
+          reset();
+          lastBlock.current = 0;
+        }
       },
     );
 
@@ -126,6 +132,34 @@ const Player = () => {
 
     state.camera.position.copy(smoothedCameraPosition);
     state.camera.lookAt(smoothedCameraTarget);
+
+    // PROGRESS
+    const progress = Math.floor((-bodyPosition.z - 2) / 4) + 1;
+    if (playerName && progress > lastBlock.current && progress <= blocksCount) {
+      lastBlock.current = progress;
+      fetch(
+        `${import.meta.env.VITE_KV_REST_API_URL}/zadd/session/${progress}/${encodeURIComponent(
+          playerName,
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_TOKEN}`,
+          },
+        },
+      ).catch((err) => console.error(err));
+
+      // publish progress update
+      fetch(
+        `${import.meta.env.VITE_KV_REST_API_URL}/publish/session/${progress}:${encodeURIComponent(
+          playerName,
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_TOKEN}`,
+          },
+        },
+      ).catch((err) => console.error(err));
+    }
 
     // PHASES
     if (bodyPosition.z < -(blocksCount * 4 + 2))

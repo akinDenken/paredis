@@ -8,6 +8,9 @@ const Interface = () => {
   const [name, setName] = useState("");
   const [saved, setSaved] = useState(false);
 
+  const playerName = useGame((state) => state.playerName);
+  const setPlayerName = useGame((state) => state.setPlayerName);
+
   const endTime = useGame((state) => state.endTime);
   const startTime = useGame((state) => state.startTime);
 
@@ -33,11 +36,25 @@ const Interface = () => {
           },
         },
       );
+      fetch(
+        `${import.meta.env.VITE_KV_REST_API_URL}/publish/scoreboard/${finalTime}:${encodeURIComponent(
+          name,
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_TOKEN}`,
+          },
+        },
+      ).catch((err) => console.error(err));
       setSaved(true);
     } catch (err) {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    setName(playerName);
+  }, [playerName]);
 
   useEffect(() => {
     const unsubscribeEffect = addEffect(() => {
@@ -62,6 +79,10 @@ const Interface = () => {
       unsubscribeEffect();
     };
   }, []);
+
+  useEffect(() => {
+    if (phase === "ready") setSaved(false);
+  }, [phase]);
   return (
     <div className="interface">
       <div ref={time} className="time">
@@ -70,6 +91,28 @@ const Interface = () => {
       {phase === "ended" && (
         <div className="restart" onClick={restart}>
           Restart
+        </div>
+      )}
+
+      {phase === "ready" && (
+        <div
+          className="score-entry"
+          style={{
+            position: "absolute",
+            top: "40%",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          <input
+            style={{ fontSize: "2rem" }}
+            placeholder="Name"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              setPlayerName(e.target.value);
+            }}
+          />
         </div>
       )}
 
@@ -87,7 +130,10 @@ const Interface = () => {
             style={{ fontSize: "2rem" }}
             placeholder="Name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setPlayerName(e.target.value);
+            }}
           />
           <button
             style={{ fontSize: "2rem", marginLeft: "1rem" }}
