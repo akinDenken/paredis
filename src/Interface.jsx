@@ -1,10 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useKeyboardControls } from "@react-three/drei";
 import { addEffect } from "@react-three/fiber";
 import useGame from "./stores/useGame.jsx";
 
 const Interface = () => {
   const time = useRef();
+  const [name, setName] = useState("");
+  const [saved, setSaved] = useState(false);
+
+  const endTime = useGame((state) => state.endTime);
+  const startTime = useGame((state) => state.startTime);
 
   const restart = useGame((state) => state.restart);
   const phase = useGame((state) => state.phase);
@@ -14,6 +19,25 @@ const Interface = () => {
   const leftward = useKeyboardControls((state) => state.leftward);
   const rightward = useKeyboardControls((state) => state.rightward);
   const jump = useKeyboardControls((state) => state.jump);
+
+  const saveScore = async () => {
+    const finalTime = ((endTime - startTime) / 1000).toFixed(2);
+    try {
+      await fetch(
+        `${import.meta.env.VITE_KV_REST_API_URL}/zadd/scoreboard/${finalTime}/${encodeURIComponent(
+          name,
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_TOKEN}`,
+          },
+        },
+      );
+      setSaved(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const unsubscribeEffect = addEffect(() => {
@@ -46,6 +70,47 @@ const Interface = () => {
       {phase === "ended" && (
         <div className="restart" onClick={restart}>
           Restart
+        </div>
+      )}
+
+      {phase === "ended" && !saved && (
+        <div
+          className="score-entry"
+          style={{
+            position: "absolute",
+            top: "60%",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          <input
+            style={{ fontSize: "2rem" }}
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button
+            style={{ fontSize: "2rem", marginLeft: "1rem" }}
+            onClick={saveScore}
+          >
+            Save Score
+          </button>
+        </div>
+      )}
+
+      {phase === "ended" && saved && (
+        <div
+          style={{
+            pointerEvents: "auto",
+            position: "absolute",
+            top: "60%",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          <a style={{ fontSize: "2rem" }} href="/scoreboard.html">
+            View Scoreboard
+          </a>
         </div>
       )}
 

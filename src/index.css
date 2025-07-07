@@ -103,3 +103,25 @@ body,
 {
   background: #ffffff99;
 }
+
+.score-entry{
+  pointer-events: auto;
+  position: fixed;
+}
+
+.scoreboard {
+  pointer-events: auto;
+  padding: 40px;
+  font-family: 'Bebas Neue', cursive;
+}
+.scoreboard h1 {
+  font-size: 3rem;
+}
+.scoreboard ul {
+  list-style: none;
+  padding: 0;
+}
+.scoreboard li {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
