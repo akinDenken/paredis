@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { fetchEventSource } from "@microsoft/fetch-event-source";
 
 const Scoreboard = () => {
   const [scores, setScores] = useState([]);
@@ -53,36 +54,59 @@ const Scoreboard = () => {
     loadScores();
     loadSessions();
 
-    const sessionEvents = new EventSource(
-      `${import.meta.env.VITE_KV_REST_API_URL}/subscribe/session/${import.meta.env.VITE_KV_REST_API_READ_ONLY_TOKEN}`,
-    );
-    sessionEvents.onmessage = (event) => {
-      try {
-        const [block, name] = event.data.split(":");
-        setSessions((prev) => {
-          const idx = prev.findIndex((p) => p.name === name);
-          if (idx !== -1) {
-            const updated = [...prev];
-            updated[idx].block = block;
-            return updated;
+    const sessionAbortController = new AbortController();
+    fetchEventSource(
+      `${import.meta.env.VITE_KV_REST_API_URL}/subscribe/session`,
+      {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_READ_ONLY_TOKEN}`,
+        },
+        signal: sessionAbortController.signal,
+        onmessage(event) {
+          try {
+            const eventData = JSON.parse(event.data);
+            if (eventData.channel === "session") {
+              const [block, name] = eventData.message.split(":");
+              setSessions((prev) => {
+                const idx = prev.findIndex((p) => p.name === name);
+                if (idx !== -1) {
+                  const updated = [...prev];
+                  updated[idx].block = block;
+                  return updated;
+                }
+                return [...prev, { name, block }];
+              });
+            }
+          } catch (err) {
+            console.error(err);
           }
-          return [...prev, { name, block }];
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    const scoreEvents = new EventSource(
-      `${import.meta.env.VITE_KV_REST_API_URL}/subscribe/scoreboard/${import.meta.env.VITE_KV_REST_API_READ_ONLY_TOKEN}`,
+        },
+        onerror(err) {
+          console.error("EventSource failed:", err);
+        },
+      },
     );
-    scoreEvents.onmessage = () => {
-      loadScores();
-    };
+
+    const scoreAbortController = new AbortController();
+    fetchEventSource(
+      `${import.meta.env.VITE_KV_REST_API_URL}/subscribe/scoreboard`,
+      {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_READ_ONLY_TOKEN}`,
+        },
+        signal: scoreAbortController.signal,
+        onmessage() {
+          loadScores();
+        },
+        onerror(err) {
+          console.error("EventSource failed:", err);
+        },
+      },
+    );
 
     return () => {
-      sessionEvents.close();
-      scoreEvents.close();
+      sessionAbortController.abort();
+      scoreAbortController.abort();
     };
   }, []);
 
