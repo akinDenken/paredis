@@ -144,6 +144,7 @@ const Interface = () => {
         </div>
       )}
 
+      {/*
       {phase === "ended" && saved && (
         <div
           style={{
@@ -159,6 +160,7 @@ const Interface = () => {
           </a>
         </div>
       )}
+*/}
 
       <div className="controls">
         <div className="key-wrapper">
