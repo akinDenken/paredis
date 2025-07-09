@@ -9,10 +9,10 @@ const App = () => {
   return (
     <KeyboardControls
       map={[
-        { name: "forward", keys: ["ArrowUp", "KeyW"] },
-        { name: "backward", keys: ["ArrowDown", "KeyS"] },
-        { name: "leftward", keys: ["ArrowLeft", "KeyA"] },
-        { name: "rightward", keys: ["ArrowRight", "KeyD"] },
+        { name: "forward", keys: ["ArrowUp"] },
+        { name: "backward", keys: ["ArrowDown"] },
+        { name: "leftward", keys: ["ArrowLeft"] },
+        { name: "rightward", keys: ["ArrowRight"] },
         { name: "jump", keys: ["Space"] },
       ]}
     >

@@ -4,7 +4,7 @@ import { subscribeWithSelector } from "zustand/middleware";
 const useGame = create(
   subscribeWithSelector((set) => {
     return {
-      blocksCount: 10,
+      blocksCount: 25,
       blockSeed: 0,
 
       playerName: "",

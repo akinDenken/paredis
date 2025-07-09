@@ -64,19 +64,16 @@ const Scoreboard = () => {
         signal: sessionAbortController.signal,
         onmessage(event) {
           try {
-            const eventData = JSON.parse(event.data);
-            if (eventData.channel === "session") {
-              const [block, name] = eventData.message.split(":");
-              setSessions((prev) => {
-                const idx = prev.findIndex((p) => p.name === name);
-                if (idx !== -1) {
-                  const updated = [...prev];
-                  updated[idx].block = block;
-                  return updated;
-                }
-                return [...prev, { name, block }];
-              });
-            }
+            const [block, name] = event.data.split(":");
+            setSessions((prev) => {
+              const idx = prev.findIndex((p) => p.name === name);
+              if (idx !== -1) {
+                const updated = [...prev];
+                updated[idx].block = block;
+                return updated;
+              }
+              return [...prev, { name, block }];
+            });
           } catch (err) {
             console.error(err);
           }
