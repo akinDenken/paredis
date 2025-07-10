@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { Float, Text, useGLTF } from "@react-three/drei";
+import { Crown } from "../assets/Crown";
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
@@ -53,11 +54,25 @@ export function BlockStart({ position = [0, 0, 0] }) {
 }
 
 export function BlockEnd({ position = [0, 0, 0] }) {
-  const hamburger = useGLTF("./hamburger.glb");
+  /*const hamburger = useGLTF("./hamburger.glb");
   // console.log(hamburger);
 
   hamburger.scene.children.forEach((mesh) => {
-    mesh.castShadow = true;
+    mesh.castShadow = false;
+  });*/
+  const crown = useRef();
+  const [speed, setSpeed] = useState(
+    () => (Math.random() + 0.2) * (Math.random() < 0.5 ? -1 : 1),
+  );
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+
+    const rotation = new THREE.Quaternion();
+    rotation.setFromEuler(new THREE.Euler(0, time * speed, 0));
+    // console.log(rotation);
+
+    crown.current.setNextKinematicRotation(rotation);
   });
   return (
     <group position={position}>
@@ -77,13 +92,15 @@ export function BlockEnd({ position = [0, 0, 0] }) {
         receiveShadow
       />
       <RigidBody
-        type={"fixed"}
-        colliders={"hull"}
+        ref={crown}
+        type={"kinematicPosition"}
+        colliders={"trimesh"}
         position={[0, 0.25, 0]}
         restitution={0.2}
         friction={0}
       >
-        <primitive object={hamburger.scene} scale={0.2} />
+        {/*<primitive object={hamburger.scene} scale={0.2} />*/}
+        <Crown scale={0.8} />
       </RigidBody>
     </group>
   );
