@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
+import { applyWaveAnimation } from "./ui-animations.js";
 
 const Scoreboard = () => {
   const [scores, setScores] = useState([]);
   const [sessions, setSessions] = useState([]);
 
   useEffect(() => {
+    applyWaveAnimation("#scoreboard-title");
+    applyWaveAnimation("#sessions-title");
     async function loadScores() {
       try {
         const response = await fetch(
@@ -109,7 +112,7 @@ const Scoreboard = () => {
 
   return (
     <div className="scoreboard">
-      <h1>Scoreboard</h1>
+      <h1 id="scoreboard-title" >SCOREBOARD</h1>
       <ul>
         {scores.map((entry, index) => (
           <li key={index}>
@@ -117,7 +120,7 @@ const Scoreboard = () => {
           </li>
         ))}
       </ul>
-      <h1>Sessions</h1>
+      <h1 id="sessions-title">SESSIONS</h1>
       <ul>
         {sessions.map((entry, index) => (
           <li key={index}>

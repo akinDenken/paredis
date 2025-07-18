@@ -105,13 +105,14 @@ const Interface = () => {
           }}
         >
           <input
-            style={{ fontSize: "2rem" }}
+            className="custom-input"
             placeholder="Name"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
               setPlayerName(e.target.value);
             }}
+            
           />
         </div>
       )}
@@ -127,7 +128,7 @@ const Interface = () => {
           }}
         >
           <input
-            style={{ fontSize: "2rem" }}
+            className="custom-input"
             placeholder="Name"
             value={name}
             onChange={(e) => {
@@ -138,6 +139,7 @@ const Interface = () => {
           <button
             style={{ fontSize: "2rem", marginLeft: "1rem" }}
             onClick={saveScore}
+            className="custom-button"
           >
             Save Score
           </button>
@@ -181,3 +183,4 @@ const Interface = () => {
   );
 };
 export default Interface;
+

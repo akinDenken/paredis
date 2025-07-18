@@ -5,6 +5,20 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Nougat';
+  src: url('/public/Nougat ExtraBlack.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lilita One';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://fonts.gstatic.com/s/lilitaone/v17/i7dPIFZ6e7FRmYVdQ3iQGqNq.woff2') format('woff2');
+}
+
 html,
 body,
 #root
@@ -14,7 +28,7 @@ body,
   left: 0;
   width: 100%;
   height: 100%;
-  background: ivory;
+  background: linear-gradient(180deg, #094CF2 0%, #0232AB 100%);
 }
 
 /**
@@ -28,7 +42,7 @@ body,
   width: 100%;
   height: 100%;
   pointer-events: none;
-  font-family: 'Bebas Neue', cursive;
+  font-family: 'Lilita One', sans-serif;
 }
 
 /**
@@ -64,6 +78,15 @@ body,
   padding-top: 10px;
   pointer-events: auto;
   cursor: pointer;
+    text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+    0px  -2px 0 #000,
+    0px   2px 0 #000,
+    -2px  0px 0 #000,
+     2px  0px 0 #000,
 }
 
 /**
@@ -90,8 +113,12 @@ body,
   width: 40px;
   height: 40px;
   margin: 4px;
-  border: 2px solid #ffffff;
-  background: #ffffff44;
+  border: 2px solid #000;
+  background: #343B50;
+  filter: drop-shadow(0px 2.5px 0px rgba(0, 0, 0, 0.9));
+  border-radius: 8px;
+  
+  
 }
 
 .controls .key.large
@@ -101,7 +128,7 @@ body,
 
 .controls .key.active
 {
-  background: #ffffff99;
+  background: #FF2395;
 }
 
 .score-entry{
@@ -112,10 +139,26 @@ body,
 .scoreboard {
   pointer-events: auto;
   padding: 40px;
-  font-family: 'Bebas Neue', cursive;
+  font-family: 'Lilita One', sans-serif;
 }
+
 .scoreboard h1 {
-  font-size: 3rem;
+  line-height: 1.25; 
+  letter-spacing: 0.12px; 
+  font-size: 4rem;
+  transform: rotate(-2deg); 
+  color: #FFEDA2;
+
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+     0 -2px 0 #000,
+     0  2px 0 #000,
+    -2px  0 0 #000,
+     2px  0 0 #000,
+     0  8px 0 #000;
 }
 .scoreboard ul {
   list-style: none;
@@ -124,4 +167,63 @@ body,
 .scoreboard li {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+}
+
+.custom-input {
+  font-family: 'Lilita One', sans-serif;
+  font-size: 3rem;
+  background-color: #23273C;
+  border-radius: 10px;
+  border: 2px solid #000;
+  box-shadow: 0px 3px 0px 0px #000, 0px 5px 0px 0px rgba(0, 0, 0, 0.25);
+  padding: 0.5rem 1rem; 
+}
+
+.custom-input:focus{
+  color: white;
+  outline: none;
+  border: 2px solid #000;
+  box-shadow: 0px 3px 0px 0px #000, 0px 5px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+.custom-input::placeholder
+{
+  color: #D0D0D0;
+}
+
+
+.custom-button {
+  font-family: 'Lilita One', sans-serif;
+  font-size: 2rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  background-color: #2373FF;
+  cursor: pointer;
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+  border-radius: 5px;
+  border: 2px solid #000;
+  box-shadow: 0px 3px 0px 0px #000, 0px 5px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+.custom-button:hover{
+  background-color: #33A6FF;
+}
+
+
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.wave-text span {
+  display: inline-block;
+  animation: jump 0.6s ease-in-out infinite;
 }
