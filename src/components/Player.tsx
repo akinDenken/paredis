@@ -181,7 +181,7 @@ const Player = () => {
     >
       <mesh castShadow>
         <icosahedronGeometry args={[0.3, 1]} />
-        <meshStandardMaterial flatShading color="mediumpurple" />
+        <meshStandardMaterial flatShading color="#B316ED" />
       </mesh>
     </RigidBody>
   );

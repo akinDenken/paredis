@@ -1,17 +1,18 @@
 // @ts-nocheck
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { Float, Text, useGLTF } from "@react-three/drei";
 import { Crown } from "../assets/Crown";
+import { applyWaveAnimation } from "./ui-animations.js";
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
-const floor1Material = new THREE.MeshStandardMaterial({ color: "limegreen" });
-const floor2Material = new THREE.MeshStandardMaterial({ color: "greenyellow" });
-const obstacleMaterial = new THREE.MeshStandardMaterial({ color: "orangered" });
-const wallMaterial = new THREE.MeshStandardMaterial({ color: "slategrey" });
+const floor1Material = new THREE.MeshStandardMaterial({ color: "#02DB07" });
+const floor2Material = new THREE.MeshStandardMaterial({ color: "#00A100" });
+const obstacleMaterial = new THREE.MeshStandardMaterial({ color: "#CA0C2E" });
+const wallMaterial = new THREE.MeshStandardMaterial({ color: "#6E0031" });
 
 export function BlockStart({ position = [0, 0, 0] }) {
   return (
@@ -85,12 +86,15 @@ export function BlockEnd({ position = [0, 0, 0] }) {
 
     crown.current.setNextKinematicRotation(rotation);
   });
+
   return (
     <group position={position}>
       <Text
         font={"./Nougat ExtraBlack.ttf"}
         scale={1}
         position={[0, 2.25, 2]}
+        color="white"
+        fillOpacity={0.5}
       >
         CHEGADA
         <meshBasicMaterial toneMapped={false} />
