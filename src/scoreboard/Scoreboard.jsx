@@ -109,7 +109,7 @@ const Scoreboard = () => {
 
   return (
     <div className="scoreboard">
-      <h1>Scoreboard</h1>
+      <h1>SCOREBOARD</h1>
       <ul>
         {scores.map((entry, index) => (
           <li key={index}>
@@ -117,7 +117,7 @@ const Scoreboard = () => {
           </li>
         ))}
       </ul>
-      <h1>Sessions</h1>
+      <h1>SESSIONS</h1>
       <ul>
         {sessions.map((entry, index) => (
           <li key={index}>

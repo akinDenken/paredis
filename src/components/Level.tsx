@@ -18,25 +18,36 @@ export function BlockStart({ position = [0, 0, 0] }) {
     <group position={position}>
       <Float floatIntensity={0.5} rotationIntensity={0.5}>
         <Text
-          font={"./bebas-neue-v9-latin-regular.woff"}
+          font={"./Nougat ExtraBlack.ttf"}
           scale={0.5}
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign={"right"}
-          position={[0.75, 0.65, 0]}
+          position={[0.35, 0.65, 0]}
           rotation-y={-0.25}
+          outlineWidth={0.02}    
+          outlineColor="#000000" 
+          outlineOpacity={1}     
+          outlineBlur={0}        
+          fillOpacity={1}        
         >
           PA
           <meshBasicMaterial toneMapped={false} />
         </Text>
         <Text
-          font={"./bebas-neue-v9-latin-regular.woff"}
+          font={"./Nougat ExtraBlack.ttf"}
           scale={0.5}
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign={"left"}
-          position={[1.38, 0.65, 0]}
-          color="red"
+          position={[1.30, 0.65, 0]}
+          color="#E6311F"
+          outlineWidth={0.02}    
+          outlineColor="#000000" 
+          outlineOpacity={1}     
+          outlineBlur={0}        
+          fillOpacity={1}   
+          
         >
           REDIS
           <meshBasicMaterial toneMapped={false} />
@@ -77,7 +88,7 @@ export function BlockEnd({ position = [0, 0, 0] }) {
   return (
     <group position={position}>
       <Text
-        font={"./bebas-neue-v9-latin-regular.woff"}
+        font={"./Nougat ExtraBlack.ttf"}
         scale={1}
         position={[0, 2.25, 2]}
       >
