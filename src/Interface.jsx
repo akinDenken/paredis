@@ -88,9 +88,12 @@ const Interface = () => {
       <div ref={time} className="time">
         0.00
       </div>
+      <div className="logo">
+        <img src="src/assets/paredis.png"/>
+      </div>
       {phase === "ended" && (
         <div className="restart" onClick={restart}>
-          Restart
+          Reiniciar
         </div>
       )}
 
@@ -106,7 +109,7 @@ const Interface = () => {
         >
           <input
             className="custom-input"
-            placeholder="Name"
+            placeholder="Nome"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -129,7 +132,7 @@ const Interface = () => {
         >
           <input
             className="custom-input"
-            placeholder="Name"
+            placeholder="Nome"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -141,7 +144,7 @@ const Interface = () => {
             onClick={saveScore}
             className="custom-button"
           >
-            Save Score
+            Salvar Tempo
           </button>
         </div>
       )}

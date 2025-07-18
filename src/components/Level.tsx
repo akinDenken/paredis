@@ -7,6 +7,7 @@ import { Float, Text, useGLTF } from "@react-three/drei";
 import { Crown } from "../assets/Crown";
 import { applyWaveAnimation } from "./ui-animations.js";
 
+
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
 const floor1Material = new THREE.MeshStandardMaterial({ color: "#02DB07" });
@@ -20,7 +21,7 @@ export function BlockStart({ position = [0, 0, 0] }) {
       <Float floatIntensity={0.5} rotationIntensity={0.5}>
         <Text
           font={"./Nougat ExtraBlack.ttf"}
-          scale={0.5}
+          scale={0.0}
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign={"right"}
@@ -37,7 +38,7 @@ export function BlockStart({ position = [0, 0, 0] }) {
         </Text>
         <Text
           font={"./Nougat ExtraBlack.ttf"}
-          scale={0.5}
+          scale={0}
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign={"left"}
@@ -94,7 +95,7 @@ export function BlockEnd({ position = [0, 0, 0] }) {
         scale={1}
         position={[0, 2.25, 2]}
         color="white"
-        fillOpacity={0.5}
+        fillOpacity={0.7}
       >
         CHEGADA
         <meshBasicMaterial toneMapped={false} />
