@@ -89,7 +89,7 @@ const Interface = () => {
         0.00
       </div>
       <div className="logo">
-        <img src="src/assets/paredis.png"/>
+        <img src="./paredis.png"/>
       </div>
       {phase === "ended" && (
         <div className="restart" onClick={restart}>
