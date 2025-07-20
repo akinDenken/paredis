@@ -15,7 +15,7 @@ const Experience = () => {
     <>
       <color args={["#bdedfc"]} attach="background" />
 
-      <Perf position={"top-left"} minimal={true} />
+      {/*<Perf position={"top-left"} minimal={true} />*/}
 
       <Physics debug={false}>
         <Lights />

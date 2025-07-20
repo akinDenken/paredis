@@ -110,26 +110,33 @@ const Scoreboard = () => {
     };
   }, []);
 
-  return (
-    <div className="scoreboard">
-      <h1 id="scoreboard-title" >SCOREBOARD</h1>
-      <ul>
-        {scores.map((entry, index) => (
-          <li key={index}>
-            {entry.name}: {Number(entry.time).toFixed(2)}s
-          </li>
-        ))}
-      </ul>
-      <h1 id="sessions-title">SESSIONS</h1>
-      <ul>
-        {sessions.map((entry, index) => (
-          <li key={index}>
-            {entry.name}: block {entry.block}
-          </li>
-        ))}
-      </ul>
+return (
+  <div className="scoreboard">
+    <div className="scoreboard-columns">
+      <div className="scoreboard-section">
+        <h1 id="scoreboard-title">CLASSIFICAÇÃO</h1>
+        <ul>
+          {scores.map((entry, index) => (
+            <li key={index}>
+              {entry.name}: {Number(entry.time).toFixed(2)}s
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="scoreboard-section">
+        <h1 id="sessions-title">POSIÇÃO</h1>
+        <ul>
+          {sessions.map((entry, index) => (
+            <li key={index}>
+              {entry.name}: block {entry.block}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Scoreboard;

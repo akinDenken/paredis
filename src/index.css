@@ -24,6 +24,7 @@ body,
 #root
 {
   position: fixed;
+  overflow-y: auto;
   top: 0;
   left: 0;
   width: 100%;
@@ -175,6 +176,19 @@ body,
   pointer-events: auto;
   padding: 40px;
   font-family: 'Lilita One', sans-serif;
+}
+
+
+.scoreboard-columns {
+  display: flex;
+  gap: 40px; 
+  flex-wrap: wrap; 
+}
+
+
+.scoreboard-section {
+  flex: 1;
+  min-width: 200px; 
 }
 
 .scoreboard h1 {
