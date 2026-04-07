@@ -8,13 +8,13 @@ export default defineConfig({
   plugins: [react()],
   root: "./",
   publicDir: "public/",
-  base: './',
+  base: "./",
   build: {
     rollupOptions: {
       /* eslint-disable no-undef */
       input: {
         main: resolve(__dirname, "index.html"),
-        scoreboard: resolve(__dirname, "scoreboard.html"),
+        // scoreboard: resolve(__dirname, "scoreboard.html"),
       },
       /* eslint-enable no-undef */
     },

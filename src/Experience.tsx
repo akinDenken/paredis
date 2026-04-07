@@ -1,7 +1,5 @@
-// @ts-nocheck
 import React from "react";
 import { Physics } from "@react-three/rapier";
-import { Perf } from "r3f-perf";
 import { Level } from "./components/Level";
 import Lights from "./components/Lights";
 import Player from "./components/Player";

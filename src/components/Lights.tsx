@@ -1,9 +1,9 @@
-// @ts-nocheck
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { DirectionalLight } from "three";
 
 export default function Lights() {
-  const light = useRef();
+  const light = useRef<DirectionalLight | null>(null);
 
   useFrame((state) => {
     light.current.position.z = state.camera.position.z + 1 - 4;
