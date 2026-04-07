@@ -1,13 +1,12 @@
-// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
-import { RigidBody, useRapier } from "@react-three/rapier";
+import { RapierRigidBody, RigidBody, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import * as THREE from "three";
 import useGame from "../stores/useGame.jsx";
 
 const Player = () => {
-  const body = useRef();
+  const body = useRef<RapierRigidBody | null>(null);
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const { rapier, world } = useRapier();
 
@@ -22,7 +21,7 @@ const Player = () => {
   const end = useGame((state) => state.end);
   const restart = useGame((state) => state.restart);
   const blocksCount = useGame((state) => state.blocksCount);
-  const playerName = useGame((state) => state.playerName);
+  // const playerName = useGame((state) => state.playerName);
 
   const jump = () => {
     const origin = body.current.translation();
@@ -34,15 +33,15 @@ const Player = () => {
     // console.log(hit.timeOfImpact);
 
     if (hit.timeOfImpact < 0.15) {
-      body.current.applyImpulse({ x: 0, y: 0.5, z: 0 });
+      body.current.applyImpulse({ x: 0, y: 0.5, z: 0 }, true);
     }
   };
 
   const reset = () => {
     // console.log("reset");
-    body.current.setTranslation({ x: 0, y: 1, z: 0 });
-    body.current.setLinvel({ x: 0, y: 0, z: 0 });
-    body.current.setAngvel({ x: 0, y: 0, z: 0 });
+    body.current.setTranslation({ x: 0, y: 1, z: 0 }, true);
+    body.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    body.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
   };
 
   const lastBlock = useRef(0);
@@ -110,8 +109,8 @@ const Player = () => {
       torque.z += torqueStrength;
     }
 
-    body.current.applyImpulse(impulse);
-    body.current.applyTorqueImpulse(torque);
+    body.current.applyImpulse(impulse, true);
+    body.current.applyTorqueImpulse(torque, true);
 
     // CAMERA
     const bodyPosition = body.current.translation();
@@ -132,34 +131,6 @@ const Player = () => {
 
     state.camera.position.copy(smoothedCameraPosition);
     state.camera.lookAt(smoothedCameraTarget);
-
-    // PROGRESS
-    const progress = Math.floor((-bodyPosition.z - 2) / 4) + 1;
-    if (playerName && progress > lastBlock.current && progress <= blocksCount) {
-      lastBlock.current = progress;
-      fetch(
-        `${import.meta.env.VITE_KV_REST_API_URL}/zadd/session/${progress}/${encodeURIComponent(
-          playerName,
-        )}`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_TOKEN}`,
-          },
-        },
-      ).catch((err) => console.error(err));
-
-      // publish progress update
-      fetch(
-        `${import.meta.env.VITE_KV_REST_API_URL}/publish/session/${progress}:${encodeURIComponent(
-          playerName,
-        )}`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_KV_REST_API_TOKEN}`,
-          },
-        },
-      ).catch((err) => console.error(err));
-    }
 
     // PHASES
     if (bodyPosition.z < -(blocksCount * 4 + 2))

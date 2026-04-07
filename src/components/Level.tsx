@@ -1,12 +1,15 @@
-// @ts-nocheck
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { CuboidCollider, RigidBody } from "@react-three/rapier";
+import {
+  CuboidCollider,
+  RapierRigidBody,
+  RigidBody,
+} from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
-import { Float, Text, useGLTF } from "@react-three/drei";
+import { Float, Text } from "@react-three/drei";
 import { Crown } from "../assets/Crown";
-import { applyWaveAnimation } from "./ui-animations.js";
 
+type Vec3 = [number, number, number];
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
@@ -15,7 +18,7 @@ const floor2Material = new THREE.MeshStandardMaterial({ color: "#00A100" });
 const obstacleMaterial = new THREE.MeshStandardMaterial({ color: "#CA0C2E" });
 const wallMaterial = new THREE.MeshStandardMaterial({ color: "#6E0031" });
 
-export function BlockStart({ position = [0, 0, 0] }) {
+export function BlockStart({ position = [0, 0, 0] }: { position?: Vec3 }) {
   return (
     <group position={position}>
       <Float floatIntensity={0.5} rotationIntensity={0.5}>
@@ -27,11 +30,11 @@ export function BlockStart({ position = [0, 0, 0] }) {
           textAlign={"right"}
           position={[0.35, 0.65, 0]}
           rotation-y={-0.25}
-          outlineWidth={0.02}    
-          outlineColor="#000000" 
-          outlineOpacity={1}     
-          outlineBlur={0}        
-          fillOpacity={1}        
+          outlineWidth={0.02}
+          outlineColor="#000000"
+          outlineOpacity={1}
+          outlineBlur={0}
+          fillOpacity={1}
         >
           PA
           <meshBasicMaterial toneMapped={false} />
@@ -42,14 +45,13 @@ export function BlockStart({ position = [0, 0, 0] }) {
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign={"left"}
-          position={[1.30, 0.65, 0]}
+          position={[1.3, 0.65, 0]}
           color="#E6311F"
-          outlineWidth={0.02}    
-          outlineColor="#000000" 
-          outlineOpacity={1}     
-          outlineBlur={0}        
-          fillOpacity={1}   
-          
+          outlineWidth={0.02}
+          outlineColor="#000000"
+          outlineOpacity={1}
+          outlineBlur={0}
+          fillOpacity={1}
         >
           REDIS
           <meshBasicMaterial toneMapped={false} />
@@ -66,14 +68,14 @@ export function BlockStart({ position = [0, 0, 0] }) {
   );
 }
 
-export function BlockEnd({ position = [0, 0, 0] }) {
+export function BlockEnd({ position = [0, 0, 0] }: { position?: Vec3 }) {
   /*const hamburger = useGLTF("./hamburger.glb");
   // console.log(hamburger);
 
   hamburger.scene.children.forEach((mesh) => {
     mesh.castShadow = false;
   });*/
-  const crown = useRef();
+  const crown = useRef<RapierRigidBody | null>(null);
   const [speed, setSpeed] = useState(
     () => (Math.random() + 0.2) * (Math.random() < 0.5 ? -1 : 1),
   );
@@ -116,14 +118,14 @@ export function BlockEnd({ position = [0, 0, 0] }) {
         friction={0}
       >
         {/*<primitive object={hamburger.scene} scale={0.2} />*/}
-        <Crown scale={0.8} />
+        <Crown scale={0.6} />
       </RigidBody>
     </group>
   );
 }
 
-export function BlockSpinner({ position = [0, 0, 0] }) {
-  const obstacle = useRef();
+export function BlockSpinner({ position = [0, 0, 0] }: { position?: Vec3 }) {
+  const obstacle = useRef<RapierRigidBody | null>(null);
   const [speed, setSpeed] = useState(
     () => (Math.random() + 0.2) * (Math.random() < 0.5 ? -1 : 1),
   );
@@ -164,8 +166,8 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
     </group>
   );
 }
-export function BlockLimbo({ position = [0, 0, 0] }) {
-  const obstacle = useRef();
+export function BlockLimbo({ position = [0, 0, 0] }: { position?: Vec3 }) {
+  const obstacle = useRef<RapierRigidBody | null>(null);
   const [timeOffset, setTimeOffset] = useState(
     () => Math.random() * Math.PI * 2,
   );
@@ -209,8 +211,8 @@ export function BlockLimbo({ position = [0, 0, 0] }) {
   );
 }
 
-export function BlockAxe({ position = [0, 0, 0] }) {
-  const obstacle = useRef();
+export function BlockAxe({ position = [0, 0, 0] }: { position?: Vec3 }) {
+  const obstacle = useRef<RapierRigidBody | null>(null);
   const [timeOffset, setTimeOffset] = useState(
     () => Math.random() * Math.PI * 2,
   );

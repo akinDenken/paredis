@@ -6,7 +6,7 @@ export function Crown(props) {
 
   return (
     <group {...props} dispose={null}>
-      <group scale={[1.347, 1, 1.347]} position={[0, 0, -0.5]}>
+      <group scale={[1.347, 1, 1.347]} position={[0, 0.75, -0.5]}>
         <mesh
           geometry={nodes.Object_4.geometry}
           material={materials["Material.001"]}
